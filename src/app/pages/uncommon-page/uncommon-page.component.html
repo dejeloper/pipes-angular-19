@@ -1,1 +1,118 @@
-<p>uncommon-page works!</p>,
+<section class="mx-5 mb-5">
+  <h1 class="text-2xl font-bold">Uncommon Pipes</h1>
+  <h3 class="text-xl font-thin">Pipes no tan comunes en Angular</h3>
+</section>
+
+<section class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+  <app-card title="i18nSelectPipe">
+    <p>
+      Saludos <span class="font-bold">{{ client().name }}</span>
+    </p>
+    <p>
+      Tu edad es de <span class="font-bold">{{ client().age }}</span> años y
+      eres
+      <span class="font-bold">
+        {{ client().gender | i18nSelect : saludoMap }}
+      </span>
+    </p>
+    <p>
+      Tu dirección es: <span class="font-bold">{{ client().address }}</span>
+    </p>
+    <p>
+      Tu ciudad es: <span class="font-bold">{{ client().city }}</span>
+    </p>
+    <p>
+      Tu país es: <span class="font-bold">{{ client().country }}</span>
+    </p>
+
+    <div class="flex justify-end mt-5">
+      <button (click)="changeClient()" class="btn btn-primary">
+        Cambiar Cliente
+      </button>
+    </div>
+  </app-card>
+
+  <app-card title="i18nPluralPipe">
+    <p>
+      Actualmente
+      <span>{{ clients().length | i18nPlural : clientsMap() }} </span>
+    </p>
+
+    <div class="flex justify-end mt-5">
+      <button
+        [disabled]="clients().length === 0"
+        class="btn btn-primary"
+        (click)="deleteClient()"
+      >
+        Borrar Cliente
+      </button>
+    </div>
+  </app-card>
+
+  <app-card title="SlicePipe">
+    <b>Origen:</b>
+    <p class="text-primary text-sm">
+      {{ clients().join(", ") }}
+    </p>
+
+    <b class="mt-5 block">Slice:1:4</b>
+    <p class="text-primary text-sm">
+      {{ clients() | slice : 1 : 4 }}
+    </p>
+
+    <b class="mt-5 block">Slice:3:7</b>
+    <p class="text-primary text-sm">
+      {{ clients() | slice : 3 : 7 }}
+    </p>
+
+    <b class="mt-5 block">Slice:0:-2</b>
+    <p class="text-primary text-sm">
+      {{ clients() | slice : 0 : -2 }}
+    </p>
+  </app-card>
+
+  <app-card title="JsonPipe">
+    <pre class="text-primary">{{ clients() | json }}</pre>
+    <pre class="text-primary">{{ client() | json }}</pre>
+    <p class="text-primary">{{ clients().join(", ") | json | uppercase }}</p>
+  </app-card>
+
+  <app-card title="KeyValuePipe">
+    <b>Json</b>
+    <pre>{{ profile | keyvalue | json }}</pre>
+    <hr />
+    <b>Lista</b>
+    <ul>
+      @for (item of profile | keyvalue; track $index) {
+      <li>
+        <strong class="text-primary"> {{ item.key | titlecase }}: </strong>
+        <span>
+          {{ item.value }}
+        </span>
+      </li>
+      }
+    </ul>
+  </app-card>
+
+  <app-card title="AsyncPipe">
+    <p class="font-bold">{{ promiseValue | async }}: Nativo</p>
+
+    @if (promiseValue|async; as value) {
+    <p class="text-primary">{{ value }}: Condicional</p>
+    }
+    <!--  -->
+    @else {
+    <p class="ext-accent">No se ha obtenido el valor</p>
+    }
+    <!--  -->
+    <h3 class="text-2xl">Observable</h3>
+    <!-- <p>{{ myObservableTimer | async }}</p> -->
+    @if (myObservableTimer | async; as value) {
+    <p class="text-primary">Valor: {{ value }}</p>
+    }
+    <!--  -->
+    @else {
+    <p class="ext-accent">No se ha obtenido el valor</p>
+    }
+  </app-card>
+</section>
